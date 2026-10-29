@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:41:25 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/29 18:53:09 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/10/29 19:28:14 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdio.h>
+# include <stdlib.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -28,13 +29,11 @@ typedef struct s_str
 }	t_str;
 
 char	*get_next_line(int fd);
-
-// utils
 int		get_c_fd(int fd);
-int		realloc_line(t_str *line);
 char	*make_line(int fd);
 
-// libft
+// utils
 void	*ft_memcpy(void *dest, const void *src, size_t n);
+int		realloc_line(t_str *line);
 
 #endif
