@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:22:40 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/31 16:10:19 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/10/31 18:47:28 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,22 @@ int	getc_fd(int fd)
 
 	if (fd_state.n == 0)
 	{
+		if (!fd_state.buf)
+			fd_state.buf = malloc(BUFFER_SIZE * sizeof(*fd_state.buf));
+		if (!fd_state.buf)
+			return (MALLOC_ERROR);
 		fd_state.n = read(fd, fd_state.buf, BUFFER_SIZE);
-		if (fd_state.n == -1)
+		if (fd_state.n <= 0)
 		{
-			fd_state.n = 0;
-			return (READ_ERROR);
-		}
-		if (fd_state.n == 0)
+			free(fd_state.buf);
+			fd_state.buf = NULL;
+			if (fd_state.n == -1)
+			{
+				fd_state.n = 0;
+				return (READ_ERROR);
+			}
 			return (EOF);
+		}
 		fd_state.bufp = fd_state.buf;
 	}
 	--fd_state.n;
@@ -42,14 +50,14 @@ char	*get_next_line(int fd)
 	while (1)
 	{
 		c = getc_fd(fd);
-		if (c == READ_ERROR || c == EOF)
+		if (c == EOF || c == READ_ERROR || c == MALLOC_ERROR)
 			break ;
 		if (!line_push(&line, c))
 			return (NULL);
 		if (c == '\n')
 			break ;
 	}
-	if (!line.len || c == READ_ERROR)
+	if (!line.len || c == READ_ERROR || c == MALLOC_ERROR)
 	{
 		free(line.s);
 		return (NULL);
@@ -58,20 +66,20 @@ char	*get_next_line(int fd)
 	return (line.s);
 }
 
-// #include <fcntl.h>
+#include <fcntl.h>
 
-// int	main(void)
-// {
-// 	int		fd;
+int	main(void)
+{
+	int		fd;
 
-// 	fd = open("text.txt", O_RDONLY);
-// 	if (fd == -1)
-// 		return (1);
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	close(fd);
-// 	return (0);
-// }
+	fd = open("text1.txt", O_RDONLY);
+	if (fd == -1)
+		return (1);
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	close(fd);
+	return (0);
+}

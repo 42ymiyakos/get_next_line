@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:41:25 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/31 16:03:30 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/10/31 18:42:08 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,12 @@
 #  define BUFFER_SIZE 42
 # endif
 
-# if BUFFER_SIZE > 0
-#  define SAFE_BUFFER_SIZE BUFFER_SIZE
-# else
-#  define SAFE_BUFFER_SIZE 1
-# endif
-
 # define READ_ERROR -2
+# define MALLOC_ERROR -3
 
 typedef struct s_fd_state
 {
-	char	buf[SAFE_BUFFER_SIZE];
+	char	*buf;
 	char	*bufp;
 	int		n;
 }	t_fd_state;
