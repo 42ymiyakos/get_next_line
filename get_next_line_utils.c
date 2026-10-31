@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:42:58 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/29 19:28:44 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/10/31 12:46:27 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,17 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-int	realloc_line(t_str *line)
+int	line_init(t_line *line)
+{
+	line->cap = BUFFER_SIZE;
+	line->len = 0;
+	line->s = malloc(line->cap * sizeof(*(line->s)));
+	if (!line->s)
+		return (0);
+	return (1);
+}
+
+int	line_realloc(t_line *line)
 {
 	char	*new_line;
 
@@ -39,9 +49,20 @@ int	realloc_line(t_str *line)
 		free(line->s);
 		return (0);
 	}
-	ft_memcpy(new_line, line->s, line->len);
 	line->cap *= 2;
+	ft_memcpy(new_line, line->s, line->len);
 	free(line->s);
 	line->s = new_line;
+	return (1);
+}
+
+int	line_push(t_line *line, int c)
+{
+	if (line->len + 1 >= line->cap)
+	{
+		if (!line_realloc(line))
+			return (0);
+	}
+	line->s[line->len++] = (char)c;
 	return (1);
 }

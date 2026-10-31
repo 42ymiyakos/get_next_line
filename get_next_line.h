@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:41:25 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/29 19:28:14 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/10/31 12:52:50 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,22 @@
 #  define BUFFER_SIZE 42
 # endif
 
+# define READ_ERROR -2
+
 typedef struct s_str
 {
-	char	*s;
-	size_t	len;
 	size_t	cap;
-}	t_str;
+	size_t	len;
+	char	*s;
+}	t_line;
 
 char	*get_next_line(int fd);
-int		get_c_fd(int fd);
-char	*make_line(int fd);
+int		getc_fd(int fd);
 
 // utils
 void	*ft_memcpy(void *dest, const void *src, size_t n);
-int		realloc_line(t_str *line);
+int		line_init(t_line *line);
+int		line_realloc(t_line *line);
+int		line_push(t_line *line, int c);
 
 #endif

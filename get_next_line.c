@@ -6,13 +6,13 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:22:40 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/29 19:35:17 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/10/31 13:02:53 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	get_c_fd(int fd)
+int	getc_fd(int fd)
 {
 	static char	buf[BUFFER_SIZE];
 	static char	*bufp;
@@ -22,12 +22,12 @@ int	get_c_fd(int fd)
 	{
 		n = read(fd, buf, BUFFER_SIZE);
 		if (n == -1)
-			return (NULL);
-		if (n == 0)
 		{
 			n = 0;
-			return (EOF);
+			return (READ_ERROR);
 		}
+		if (n == 0)
+			return (EOF);
 		bufp = buf;
 	}
 	--n;
@@ -36,31 +36,22 @@ int	get_c_fd(int fd)
 
 char	*get_next_line(int fd)
 {
-	t_str	line;
+	t_line	line;
 	int		c;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || !line_init(&line))
 		return (NULL);
-	line.cap = BUFFER_SIZE;
-	line.s = malloc(line.cap * sizeof(*(line.s)));
-	if (!line.s)
-		return (NULL);
-	line.len = 0;
 	while (1)
 	{
-		c = get_c_fd(fd);
-		if (c == EOF)
+		c = getc_fd(fd);
+		if (c == READ_ERROR || c == EOF)
 			break ;
-		if (line.len + 1 >= line.cap)
-		{
-			if (!realloc_line(&line))
-				return (NULL);
-		}
-		line.s[line.len++] = (char)c;
+		if (!line_push(&line, c))
+			return (NULL);
 		if (c == '\n')
 			break ;
 	}
-	if (line.len == 0)
+	if (!line.len || c == READ_ERROR)
 	{
 		free(line.s);
 		return (NULL);
@@ -78,6 +69,10 @@ char	*get_next_line(int fd)
 // 	fd = open("text.txt", O_RDONLY);
 // 	if (fd == -1)
 // 		return (1);
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
 // 	close(fd);
 // 	return (0);
