@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:22:40 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/31 13:02:53 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/10/31 16:10:19 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 
 int	getc_fd(int fd)
 {
-	static char	buf[BUFFER_SIZE];
-	static char	*bufp;
-	static int	n;
+	static t_fd_state	fd_state;
 
-	if (n == 0)
+	if (fd_state.n == 0)
 	{
-		n = read(fd, buf, BUFFER_SIZE);
-		if (n == -1)
+		fd_state.n = read(fd, fd_state.buf, BUFFER_SIZE);
+		if (fd_state.n == -1)
 		{
-			n = 0;
+			fd_state.n = 0;
 			return (READ_ERROR);
 		}
-		if (n == 0)
+		if (fd_state.n == 0)
 			return (EOF);
-		bufp = buf;
+		fd_state.bufp = fd_state.buf;
 	}
-	--n;
-	return ((unsigned char)*bufp++);
+	--fd_state.n;
+	return ((unsigned char)*fd_state.bufp++);
 }
 
 char	*get_next_line(int fd)
@@ -39,7 +37,7 @@ char	*get_next_line(int fd)
 	t_line	line;
 	int		c;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || !line_init(&line))
+	if (!is_valid_args(fd) || !line_init(&line))
 		return (NULL);
 	while (1)
 	{

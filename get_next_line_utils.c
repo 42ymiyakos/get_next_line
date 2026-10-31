@@ -6,11 +6,24 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:42:58 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/31 12:46:27 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/10/31 16:21:45 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	is_valid_args(int fd)
+{
+	char	dummy[1];
+
+	if (BUFFER_SIZE <= 0)
+		return (0);
+	if (fd < 0)
+		return (0);
+	if (read(fd, dummy, 0) < 0)
+		return (0);
+	return (1);
+}
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
