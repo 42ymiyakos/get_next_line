@@ -1,4 +1,23 @@
 #include <fcntl.h>
+
+// #include "get_next_line.h"
+
+// int	main(void)
+// {
+// 	int		fd;
+
+// 	fd = open("text1.txt", O_RDONLY);
+// 	if (fd == -1)
+// 		return (1);
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	close(fd);
+// 	return (0);
+// }
+
 #include "get_next_line_bonus.h"
 
 int	main(void)
@@ -39,4 +58,3 @@ int	main(void)
 		close(fds[i]);
 	return (0);
 }
-

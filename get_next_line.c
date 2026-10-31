@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:22:40 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/31 18:47:28 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/10/31 18:51:46 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,4 @@ char	*get_next_line(int fd)
 	}
 	line.s[line.len] = '\0';
 	return (line.s);
-}
-
-#include <fcntl.h>
-
-int	main(void)
-{
-	int		fd;
-
-	fd = open("text1.txt", O_RDONLY);
-	if (fd == -1)
-		return (1);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	close(fd);
-	return (0);
 }
