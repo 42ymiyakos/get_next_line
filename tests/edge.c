@@ -147,7 +147,10 @@ int	main(int ac, char **av)
 	fd = open_with("e_between", "a1\na2\na3\n");
 	expect("between #1", get_next_line(fd), "a1\n");
 	expect("between: fd -1", get_next_line(-1), NULL);
+# ifdef BONUS
+	/* mandatory は fd を区別しないので、別の fd を挟む確認は bonus のみ */
 	expect("between: fd 4242", get_next_line(4242), NULL);
+# endif
 	expect("between #2", get_next_line(fd), "a2\n");
 	expect("between #3", get_next_line(fd), "a3\n");
 	expect("between #4", get_next_line(fd), NULL);
