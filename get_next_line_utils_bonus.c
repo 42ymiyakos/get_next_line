@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:42:58 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/31 16:42:26 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/11/01 10:48:06 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	line_init(t_line *line)
 {
 	line->cap = BUFFER_SIZE;
 	line->len = 0;
-	line->s = malloc(line->cap * sizeof(*(line->s)));
+	line->s = malloc(line->cap * sizeof(*line->s));
 	if (!line->s)
 		return (0);
 	return (1);
