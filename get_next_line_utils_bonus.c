@@ -6,13 +6,13 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:42:58 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/11/01 11:33:13 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/11/01 11:46:35 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static int	line_init(t_line *line)
+int	line_init(t_line *line)
 {
 	line->cap = BUFFER_SIZE;
 	line->len = 0;

@@ -6,13 +6,13 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:22:40 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/11/01 11:32:28 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/11/01 11:46:49 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-int	is_valid_args(int fd)
+static int	is_valid_args(int fd)
 {
 	char	dummy[1];
 
