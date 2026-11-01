@@ -1,60 +1,64 @@
 #include <fcntl.h>
 
-// #include "get_next_line.h"
-
-// int	main(void)
-// {
-// 	int		fd;
-
-// 	fd = open("text1.txt", O_RDONLY);
-// 	if (fd == -1)
-// 		return (1);
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	close(fd);
-// 	return (0);
-// }
-
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 int	main(void)
 {
-	char	*files[3] = {"text1.txt", "text2.txt", "text3.txt"};
-	int		fds[3];
-	int		done[3] = {0, 0, 0};
-	int		remaining;
+	int		fd;
 	char	*line;
-	int		i;
 
-	for (i = 0; i < 3; i++)
+	line = NULL;
+	fd = open("text1.txt", O_RDONLY);
+	if (fd == -1)
+		return (1);
+	while (1)
 	{
-		fds[i] = open(files[i], O_RDONLY);
-		if (fds[i] == -1)
-			return (perror(files[i]), 1);
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		printf("%s", line);
 	}
-	remaining = 3;
-	while (remaining > 0)
-	{
-		for (i = 0; i < 3; i++)
-		{
-			if (done[i])
-				continue ;
-			line = get_next_line(fds[i]);
-			if (!line)
-			{
-				printf("[%s] (EOF)\n", files[i]);
-				done[i] = 1;
-				remaining--;
-				continue ;
-			}
-			printf("[%s] %s", files[i], line);
-			free(line);
-		}
-	}
-	for (i = 0; i < 3; i++)
-		close(fds[i]);
+	close(fd);
 	return (0);
 }
+
+// #include "get_next_line_bonus.h"
+
+// int	main(void)
+// {
+// 	char	*files[3] = {"text1.txt", "text2.txt", "text3.txt"};
+// 	int		fds[3];
+// 	int		done[3] = {0, 0, 0};
+// 	int		remaining;
+// 	char	*line;
+// 	int		i;
+
+// 	for (i = 0; i < 3; i++)
+// 	{
+// 		fds[i] = open(files[i], O_RDONLY);
+// 		if (fds[i] == -1)
+// 			return (perror(files[i]), 1);
+// 	}
+// 	remaining = 3;
+// 	while (remaining > 0)
+// 	{
+// 		for (i = 0; i < 3; i++)
+// 		{
+// 			if (done[i])
+// 				continue ;
+// 			line = get_next_line(fds[i]);
+// 			if (!line)
+// 			{
+// 				printf("[%s] (EOF)\n", files[i]);
+// 				done[i] = 1;
+// 				remaining--;
+// 				continue ;
+// 			}
+// 			printf("[%s] %s", files[i], line);
+// 			free(line);
+// 		}
+// 	}
+// 	for (i = 0; i < 3; i++)
+// 		close(fds[i]);
+// 	return (0);
+// }
