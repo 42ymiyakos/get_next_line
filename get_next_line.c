@@ -6,11 +6,24 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:22:40 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/31 18:51:46 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/11/01 11:33:03 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static int	is_valid_args(int fd)
+{
+	char	dummy[1];
+
+	if (BUFFER_SIZE <= 0)
+		return (0);
+	if (fd < 0)
+		return (0);
+	if (read(fd, dummy, 0) < 0)
+		return (0);
+	return (1);
+}
 
 static int	getc_fd(int fd)
 {

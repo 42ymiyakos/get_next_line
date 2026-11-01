@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:41:25 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/11/01 11:27:14 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/11/01 11:33:18 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_line
 char	*get_next_line(int fd);
 
 // utils
-int		is_valid_args(int fd);
 int		line_init(t_line *line);
 int		line_push(t_line *line, int c);
 
