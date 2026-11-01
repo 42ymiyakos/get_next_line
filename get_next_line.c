@@ -12,32 +12,32 @@
 
 #include "get_next_line.h"
 
-int	getc_fd(int fd)
+static int	getc_fd(int fd)
 {
-	static t_fd_state	fd_state;
+	static t_fd_state	state;
 
-	if (fd_state.n == 0)
+	if (state.remain == 0)
 	{
-		if (!fd_state.buf)
-			fd_state.buf = malloc(BUFFER_SIZE * sizeof(*fd_state.buf));
-		if (!fd_state.buf)
+		if (!state.buf)
+			state.buf = malloc(BUFFER_SIZE * sizeof(*state.buf));
+		if (!state.buf)
 			return (MALLOC_ERROR);
-		fd_state.n = read(fd, fd_state.buf, BUFFER_SIZE);
-		if (fd_state.n <= 0)
+		state.remain = read(fd, state.buf, BUFFER_SIZE);
+		if (state.remain <= 0)
 		{
-			free(fd_state.buf);
-			fd_state.buf = NULL;
-			if (fd_state.n == -1)
+			free(state.buf);
+			state.buf = NULL;
+			if (state.remain == -1)
 			{
-				fd_state.n = 0;
+				state.remain = 0;
 				return (READ_ERROR);
 			}
 			return (EOF);
 		}
-		fd_state.bufp = fd_state.buf;
+		state.pos = state.buf;
 	}
-	--fd_state.n;
-	return ((unsigned char)*fd_state.bufp++);
+	--state.remain;
+	return ((unsigned char)*state.pos++);
 }
 
 char	*get_next_line(int fd)

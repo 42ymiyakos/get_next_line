@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:42:58 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/11/01 10:46:25 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/11/01 11:12:21 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,17 @@ int	is_valid_args(int fd)
 	return (1);
 }
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+int	line_init(t_line *line)
+{
+	line->cap = BUFFER_SIZE;
+	line->len = 0;
+	line->s = malloc(line->cap * sizeof(*line->s));
+	if (!line->s)
+		return (0);
+	return (1);
+}
+
+static void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	unsigned char		*dest_p;
 	const unsigned char	*src_p;
@@ -42,17 +52,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-int	line_init(t_line *line)
-{
-	line->cap = BUFFER_SIZE;
-	line->len = 0;
-	line->s = malloc(line->cap * sizeof(*line->s));
-	if (!line->s)
-		return (0);
-	return (1);
-}
-
-int	line_realloc(t_line *line)
+static int	line_grow(t_line *line)
 {
 	char	*new_line;
 
@@ -73,7 +73,7 @@ int	line_push(t_line *line, int c)
 {
 	if (line->len + 1 >= line->cap)
 	{
-		if (!line_realloc(line))
+		if (!line_grow(line))
 			return (0);
 	}
 	line->s[line->len++] = (char)c;

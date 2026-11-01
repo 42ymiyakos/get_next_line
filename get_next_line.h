@@ -6,7 +6,7 @@
 /*   By: ymiyakos <ymiyakos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:41:25 by ymiyakos          #+#    #+#             */
-/*   Updated: 2026/10/31 18:42:08 by ymiyakos         ###   ########.fr       */
+/*   Updated: 2026/11/01 11:06:00 by ymiyakos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@
 typedef struct s_fd_state
 {
 	char	*buf;
-	char	*bufp;
-	int		n;
+	char	*pos;
+	ssize_t	remain;
 }	t_fd_state;
 
-typedef struct s_str
+typedef struct s_line
 {
 	size_t	cap;
 	size_t	len;
@@ -39,13 +39,10 @@ typedef struct s_str
 }	t_line;
 
 char	*get_next_line(int fd);
-int		getc_fd(int fd);
 
 // utils
 int		is_valid_args(int fd);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
 int		line_init(t_line *line);
-int		line_realloc(t_line *line);
 int		line_push(t_line *line, int c);
 
 #endif

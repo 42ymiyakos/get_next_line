@@ -12,32 +12,32 @@
 
 #include "get_next_line_bonus.h"
 
-int	getc_fd(int fd)
+static int	getc_fd(int fd)
 {
 	static t_fd_state	state[FD_MAX];
 
-	if (state[fd].n == 0)
+	if (state[fd].remain == 0)
 	{
 		if (!state[fd].buf)
 			state[fd].buf = malloc(BUFFER_SIZE * sizeof(*state[fd].buf));
 		if (!state[fd].buf)
 			return (MALLOC_ERROR);
-		state[fd].n = read(fd, state[fd].buf, BUFFER_SIZE);
-		if (state[fd].n <= 0)
+		state[fd].remain = read(fd, state[fd].buf, BUFFER_SIZE);
+		if (state[fd].remain <= 0)
 		{
 			free(state[fd].buf);
 			state[fd].buf = NULL;
-			if (state[fd].n == -1)
+			if (state[fd].remain == -1)
 			{
-				state[fd].n = 0;
+				state[fd].remain = 0;
 				return (READ_ERROR);
 			}
 			return (EOF);
 		}
-		state[fd].bufp = state[fd].buf;
+		state[fd].pos = state[fd].buf;
 	}
-	--state[fd].n;
-	return ((unsigned char)*state[fd].bufp++);
+	--state[fd].remain;
+	return ((unsigned char)*state[fd].pos++);
 }
 
 char	*get_next_line(int fd)
